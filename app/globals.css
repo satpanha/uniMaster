@@ -98,6 +98,8 @@
    BASE
    ============================================ */
 @layer base {
+  html, body { overflow-x: hidden; }
+
   html {
     font-family: var(--font-sans);
   }
@@ -366,6 +368,18 @@
     margin: 0 auto;
   }
 
+  /* Ensure the centered container doesn't force overflow on small screens */
+  .layout-main > .max-w-7xl {
+    max-width: 100% !important;
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+    box-sizing: border-box;
+  }
+
+  /* Make form controls respect container width */
+  input, select, textarea { max-width: 100%; box-sizing: border-box; }
+
+
   .dashboard-content {
     padding-top: var(--space-sm); /* reduce top spacing for immediate content */
   }
@@ -377,6 +391,8 @@
     gap: var(--space-md);
     align-items: start;
     padding: var(--space-sm) var(--space-md);
+    /* Ensure accidental overflow inside the layout doesn't expand the page on small viewports */
+    overflow-x: hidden;
   }
 
   .dashboard-sidebar {
@@ -394,13 +410,32 @@
   @media (max-width: 768px) {
     .dashboard-layout {
       grid-template-columns: 1fr;
+      overflow-x: hidden;
     }
 
     .dashboard-sidebar {
       position: static;
       height: auto;
       border-right: none;
+      width: 100%;
+      display: none !important; /* hide sidebar on small viewports to prevent layout overflow; app should provide a top navigation for mobile */
     }
+
+    .dashboard-content { min-width: 0; width: 100%; }
+
+    /* Prevent children inside dashboard content from forcing overflow on small screens */
+    .dashboard-content, .dashboard-content * { max-width: 100% !important; box-sizing: border-box; }
+
+    /* Ensure cards do not exceed container width */
+    .bg-card { width: 100%; box-sizing: border-box; }
+
+    /* Reduce heavy padding on small screens to avoid cumulative overflow from paddings */
+    .bg-card, .p-6 { padding: 1rem !important; }
+    .p-4 { padding: 0.75rem !important; }
+
+    /* Mobile visibility helpers */
+    .hide-mobile { display: none !important; }
+    .show-mobile { display: block !important; }
   }
 
   /* ---------- KPI GRID ---------- */
@@ -543,10 +578,19 @@
   }
 
   /* ---------- TABLE UTILITIES ---------- */
+  /* Responsive table container – prevents body overflow and enables horizontal scroll on small viewports */
+  .table-container {
+    min-width: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .table {
     width: 100%;
     border-collapse: collapse;
     background: transparent;
+    /* table has a reasonable minimum to preserve column layout, but will scroll within the container on small screens */
+    min-width: 720px;
   }
 
   .table thead th {
@@ -565,6 +609,18 @@
     padding: 0.75rem var(--space-sm);
     vertical-align: middle;
     border-bottom: 1px solid var(--card-border);
+    /* allow contents to shrink and be truncated if necessary */
+    min-width: 0;
+  }
+
+  /* Truncate long content inside table cells when needed */
+  .table td .truncate,
+  .table td.truncate {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .empty-state {
