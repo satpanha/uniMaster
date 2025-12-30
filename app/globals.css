@@ -1,26 +1,636 @@
 @import "tailwindcss";
 
+/* ============================================
+   MOEYS SPORT – DASHBOARD DESIGN SYSTEM
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ---------- BASE ---------- */
+  --color-white: #ffffff;
+  --color-black: #0f172a;
+
+  /* ---------- NEUTRALS ---------- */
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2933;
+  --gray-900: #111827;
+
+  /* ---------- PRIMARY (DASHBOARD BLUE) ---------- */
+  --primary-50: #eff6ff;
+  --primary-100: #dbeafe;
+  --primary-500: #2563eb;
+  --primary-600: #1d4ed8;
+  --primary-700: #1e40af;
+
+  /* ---------- SUCCESS (GREEN KPI) ---------- */
+  --success-50: #ecfdf5;
+  --success-100: #d1fae5;
+  --success-500: #22c55e;
+  --success-600: #16a34a;
+
+  /* ---------- WARNING (MEDALS) ---------- */
+  --warning-50: #fff7ed;
+  --warning-100: #ffedd5;
+  --warning-500: #f59e0b;
+
+  /* ---------- SEMANTIC ---------- */
+  --background: #f6f8fc;
+  --foreground: var(--gray-900);
+
+  --card: var(--color-white);
+  --card-border: #e6ebf2;
+
+  --muted: #f1f5f9;
+  --muted-foreground: var(--gray-500);
+
+  /* ---------- TYPOGRAPHY ---------- */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* ---------- RADIUS ---------- */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-full: 9999px;
+
+  /* ---------- SPACING SCALE ---------- */
+  --space-xxs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  /* KPI card sizing (polish: slightly larger for better readability) */
+  --kpi-height: 6.25rem; /* increased KPI card height */
+  --kpi-icon-size: 52px;
+
+  /* ---------- SHADOWS (VERY SOFT) ---------- */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 10px 24px rgba(15, 23, 42, 0.08);
+
+  /* ---------- TRANSITION ---------- */
+  --transition-base: 180ms ease;
+
+  /* Compatibility aliases (used across older components) */
+  --bg: var(--background);
+  --bg-card: var(--card);
+  --bg-muted: var(--muted);
+  --text-primary: var(--foreground);
+  --text-secondary: var(--gray-600);
+  --text-muted: var(--muted-foreground);
+
+  --primary: var(--primary-500);
+  --success: var(--success-600);
+  --warning: var(--warning-500);
+  --danger: #dc2626;
+  --border: var(--card-border);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ============================================
+   BASE
+   ============================================ */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    min-height: 100vh;
+  }
+
+  * {
+    border-color: var(--card-border);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ============================================
+   COMPONENTS
+   ============================================ */
+@layer components {
+
+  /* ---------- CARD ---------- */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-xs);
+  }
+
+  /* ---------- KPI STAT CARD ---------- */
+  .stat-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-radius: var(--radius-xl);
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .stat-card-title {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    font-weight: 500;
+  }
+
+  .stat-card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 0.25rem;
+  }
+
+  .stat-card-meta {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    color: var(--success-600);
+  }
+
+  /* ---------- KPI ICON PILL ---------- */
+  .stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-lg);
+    display: grid;
+    place-items: center;
+    color: white;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .stat-icon.primary {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+  }
+
+  .stat-icon.success {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+  }
+
+  .stat-icon.warning {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+  }
+
+  /* ---------- STAT CARD COLOR VARIANTS (uses CSS custom properties) ---------- */
+  .stat-card {
+    --stat-border: var(--card-border);
+    --stat-icon-bg: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+    --stat-bg: var(--card);
+    --stat-text: var(--foreground);
+  }
+
+  .stat-card.kpi { border: 1.5px solid var(--stat-border); }
+
+  .stat-card--blue {
+    --stat-border: var(--primary-100);
+    --stat-icon-bg: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+    --stat-bg: var(--primary-50);
+    --stat-text: var(--primary-700);
+  }
+
+  .stat-card--green {
+    --stat-border: var(--success-100);
+    --stat-icon-bg: linear-gradient(135deg, var(--success-600), var(--success-700));
+    --stat-bg: var(--success-50);
+    --stat-text: var(--success-600);
+  }
+
+  .stat-card--purple {
+    --stat-border: var(--primary-100);
+    --stat-icon-bg: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+    --stat-bg: var(--primary-50);
+    --stat-text: var(--primary-700);
+  }
+
+  .stat-card--orange {
+    --stat-border: var(--warning-100);
+    --stat-icon-bg: linear-gradient(135deg, var(--warning-500), #d97706);
+    --stat-bg: var(--warning-50);
+    --stat-text: var(--warning-500);
+  }
+
+  .stat-card--red {
+    --stat-border: var(--warning-100);
+    --stat-icon-bg: linear-gradient(135deg, var(--error-600, var(--warning-600)), var(--error-700, var(--warning-700)));
+    --stat-bg: var(--warning-50);
+    --stat-text: var(--error-600, var(--warning-600));
+  }
+
+  .stat-card--yellow {
+    --stat-border: var(--warning-100);
+    --stat-icon-bg: linear-gradient(135deg, var(--warning-500), var(--warning-600));
+    --stat-bg: var(--warning-50);
+    --stat-text: var(--warning-600);
+  }
+
+  .stat-card--gold {
+    --stat-border: var(--warning-100);
+    --stat-icon-bg: linear-gradient(135deg, var(--warning-500), var(--warning-600));
+    --stat-bg: var(--warning-50);
+    --stat-text: var(--warning-600);
+  }
+
+  .stat-card .stat-icon {
+    background: var(--stat-icon-bg);
+  }
+
+  .stat-card .stat-icon-bg {
+    background-color: var(--stat-bg);
+  }
+
+  .stat-card .stat-icon-svg { color: var(--stat-text); }
+  .stat-card .stat-value { color: var(--stat-text); }
+
+  .trend-positive { color: var(--success-600); }
+  .trend-negative { color: var(--error-600, var(--warning-600)); }
+
+  /* ---------- BUTTONS ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-md);
+    padding: 0.6rem 0.9rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: box-shadow var(--transition-base), transform var(--transition-base), background-color var(--transition-base);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+    color: white;
+    box-shadow: var(--shadow-xs);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--foreground);
+    border-color: var(--card-border);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--foreground);
+    border-color: var(--card-border);
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+  }
+
+  .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.85rem; }
+  .btn-md { padding: 0.6rem 0.9rem; font-size: 0.95rem; }
+  .btn-lg { padding: 0.9rem 1.25rem; font-size: 1rem; }
+
+  .spinner { animation: spin 1s linear infinite; }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+
+  /* ---------- PROGRESS / TRACK HELPERS ---------- */
+  .progress-track {
+    width: 100%;
+    height: 8px;
+    background: var(--muted);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24 0%, #94a3b8 50%, #d97706 100%);
+    transition: width 0.3s ease;
+  }
+
+  /* ---------- CARD STATUS HELPERS ---------- */
+  .card-success { background: var(--success-50); border-color: var(--success-600); }
+  .card-error { background: var(--warning-50); border-color: var(--error-600, var(--warning-600)); }
+
+  /* ---------- COLORED UTILITIES (used sparingly) ---------- */
+  .bg-primary-100 { background: var(--primary-100); }
+  .text-primary-600 { color: var(--primary-600); }
+
+  .file-primary { --file-bg: var(--primary-600); }
+
+  .bg-success-50 { background: var(--success-50); }
+  .border-success-200 { border-color: var(--success-100); }
+  .text-success-700 { color: var(--success-600); }
+
+  .text-error-600 { color: var(--error-600, var(--warning-600)); }
+
+  /* ---------- LAYOUT HELPERS ---------- */
+  .two-col-layout {
+    display: grid;
+    /* Make the layout responsive: main content + a constrained sidebar that collapses on smaller screens */
+    grid-template-columns: 1fr min(400px, 36%);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 1024px) {
+    .two-col-layout { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- SECTION HEADER ---------- */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+  }
+
+  .section-link {
+    font-size: 0.875rem;
+    color: var(--primary-600);
+  }
+
+  /* ---------- DASHBOARD / LAYOUT ---------- */
+  .layout-main {
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-lg);
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .dashboard-content {
+    padding-top: var(--space-sm); /* reduce top spacing for immediate content */
+  }
+
+  /* ---------- DASHBOARD LAYOUT (LEFT NAV / RIGHT CONTENT) ---------- */
+  .dashboard-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--space-md);
+    align-items: start;
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .dashboard-sidebar {
+    padding: var(--space-md);
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    height: calc(100vh - var(--space-lg));
+    position: sticky;
+    top: var(--space-sm);
+    overflow: auto;
+  }
+
+  /* On small screens, collapse to a single column */
+  @media (max-width: 768px) {
+    .dashboard-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .dashboard-sidebar {
+      position: static;
+      height: auto;
+      border-right: none;
+    }
+  }
+
+  /* ---------- KPI GRID ---------- */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--space-md);
+  }
+
+  .kpi-col-3 { grid-column: span 3 / span 3; }
+  .kpi-card {
+    height: var(--kpi-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-xl);
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .kpi-card:focus,
+  .kpi-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .kpi-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .kpi-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--gray-900);
+  }
+
+  /* Icon visual polish */
+  .kpi-icon {
+    width: var(--kpi-icon-size);
+    height: var(--kpi-icon-size);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: white;
+    box-shadow: var(--shadow-sm);
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+    font-size: 1.25rem;
+  }
+
+  .kpi-label {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+  }
+
+  .kpi-icon {
+    width: var(--kpi-icon-size);
+    height: var(--kpi-icon-size);
+    border-radius: var(--radius-md);
+    display: grid;
+    place-items: center;
+    color: white;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .kpi-trend {
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .kpi-up { color: var(--success-600); }
+  .kpi-down { color: var(--danger); }
+
+  /* Responsive KPI adjustments */
+  @media (max-width: 1024px) {
+    .kpi-card { padding: 0.75rem; }
+    .kpi-value { font-size: 1.25rem; }
+    .kpi-icon { width: 44px; height: 44px; }
+  }
+
+  @media (max-width: 640px) {
+    .kpi-grid { gap: var(--space-sm); }
+    .kpi-card { padding: 0.6rem; }
+    .kpi-value { font-size: 1.05rem; }
+    .kpi-label { font-size: 0.8rem; }
+    .kpi-icon { width: 36px; height: 36px; }
+  }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar {
+    background: var(--card);
+    border-right: 1px solid var(--card-border);
+    min-width: 240px;
+    padding: var(--space-md) 0;
+  }
+
+  .sidebar-brand {
+    padding: 1rem var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-weight: 700;
+    color: var(--primary-700);
+    background: var(--primary-50);
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .sidebar-nav {
+    margin-top: var(--space-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 0.5rem var(--space-md);
+    color: var(--gray-700);
+    border-left: 3px solid transparent;
+  }
+
+  .sidebar-item:hover { background: var(--muted); }
+
+  .sidebar-item-active {
+    background: var(--primary-50);
+    color: var(--primary-700);
+    border-left-color: var(--primary-600);
+    font-weight: 600;
+  }
+
+  /* ---------- TABLE UTILITIES ---------- */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+  }
+
+  .table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--card);
+    z-index: 2;
+    border-bottom: 1px solid var(--card-border);
+    padding: 0.75rem var(--space-sm);
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .table td {
+    padding: 0.75rem var(--space-sm);
+    vertical-align: middle;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-lg);
+    color: var(--gray-500);
+  }
+
+  .table-row-top-1 { background: rgba(37,99,235,0.04); }
+  .table-row-top-2 { background: rgba(249,115,22,0.03); }
+  .table-row-top-3 { background: rgba(245,158,11,0.02); }
+
+  .numeric { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* small helper */
+  .text-muted { color: var(--muted-foreground); }
+
+
+  /* ---------- EXPORT PANEL ---------- */
+  .export-panel {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+  }
+
+  .export-item {
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-xs);
+  }
+
+  /* ---------- TABLE ---------- */
+  .table th {
+    background: var(--muted);
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+  }
+
+  .table td {
+    border-bottom: 1px solid var(--card-border);
+  }
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+@layer utilities {
+  .text-muted {
+    color: var(--muted-foreground);
+  }
+
+  .text-muted-foreground { color: var(--muted-foreground); }
+  .bg-muted {
+    background: var(--muted);
+  }
+
+  .bg-card { background: var(--card); }
+  .border-border { border-color: var(--card-border); }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-sm);
+  }
 }
