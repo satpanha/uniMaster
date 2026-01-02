@@ -302,6 +302,40 @@
   .spinner { animation: spin 1s linear infinite; }
   @keyframes spin { 100% { transform: rotate(360deg); } }
 
+  /* ---------- MODAL ---------- */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(2, 6, 23, 0.55);
+    z-index: 60;
+    padding: 1.5rem;
+  }
+
+  .modal-content {
+    width: 100%;
+    max-width: 720px;
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 20px 40px rgba(2,6,23,0.2);
+    overflow: hidden;
+    transform-origin: center;
+    animation: modal-in 180ms var(--transition-base) both;
+  }
+
+  @keyframes modal-in {
+    from { opacity: 0; transform: translateY(6px) scale(0.995); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ensure content is accessible on small screens */
+  @media (max-width: 640px) {
+    .modal-overlay { padding: 0.75rem; }
+    .modal-content { max-width: 100%; width: 100%; border-radius: calc(var(--radius-md)); }
+  }
+
   /* ---------- PROGRESS / TRACK HELPERS ---------- */
   .progress-track {
     width: 100%;
@@ -356,6 +390,39 @@
   .section-link {
     font-size: 0.875rem;
     color: var(--primary-600);
+  }
+
+  /* ---------- EVENT PILL / BREADCRUMB ---------- */
+  .event-pill {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    background: var(--primary-50);
+    color: var(--primary-700);
+    font-weight: 600;
+    font-size: 0.875rem;
+    border: 1px solid var(--primary-100);
+  }
+
+  .event-breadcrumb {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+
+  /* ---------- SCREEN-READER ONLY ---------- */
+  .sr-only {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap; /* added line */
+    border: 0; padding: 0; margin: -1px;
   }
 
   /* ---------- DASHBOARD / LAYOUT ---------- */
@@ -436,6 +503,19 @@
     /* Mobile visibility helpers */
     .hide-mobile { display: none !important; }
     .show-mobile { display: block !important; }
+
+    /* Mobile card representation for tables */
+    .mobile-table-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 0.75rem;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .mobile-table-card .card-row { display: flex; justify-content: space-between; gap: 0.5rem; align-items: center; }
+    .mobile-table-card .card-meta { color: var(--muted-foreground); font-size: 0.875rem; }
+    .mobile-table-card .card-details { margin-top: 0.5rem; font-size: 0.875rem; color: var(--gray-700); }
   }
 
   /* ---------- KPI GRID ---------- */

@@ -60,7 +60,7 @@ export function Sidebar() {
       </div>
 
       <div className="px-4 pb-6 flex flex-col gap-4">
-        <Button variant="primary" className="w-full" aria-label="Register Athlete">Register Athlete</Button>
+        <Link href="/dashboard/register" aria-label="Register Athlete" className="btn btn-primary w-full inline-flex items-center justify-center">Register Athlete</Link>
         <div className="flex items-center gap-3 p-3 rounded-lg bg-muted">
           <Image src="/avatars/user.svg" alt="User Avatar" width={40} height={40} className="w-10 h-10 rounded-full border border-border" />
           <div className="flex-1">

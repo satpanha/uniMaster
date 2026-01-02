@@ -1,0 +1,18 @@
+[
+  {
+    "id": "evt-1",
+    "name": "National Games 2026",
+    "startDate": "2026-04-01",
+    "endDate": "2026-04-14",
+    "status": "upcoming",
+    "sports": ["Athletics","Football","Boxing","Swimming"]
+  },
+  {
+    "id": "evt-2",
+    "name": "Regional Championships 2025",
+    "startDate": "2025-11-10",
+    "endDate": "2025-11-16",
+    "status": "completed",
+    "sports": ["Badminton","Volleyball","Taekwondo"]
+  }
+]
